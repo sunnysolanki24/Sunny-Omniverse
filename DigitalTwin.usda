@@ -1,0 +1,640 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (50000, 0, 0)
+                double radius = 500
+            }
+            dictionary Perspective = {
+                double3 position = (827.4451846742721, 2362.179635652516, 839.9578654560144)
+                double3 target = (-800.5804381636459, 193.20424150410054, 392.835041152825)
+            }
+            dictionary Right = {
+                double3 position = (0, -50000, 0)
+                double radius = 500
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 50000)
+                double radius = 500
+            }
+            string boundCamera = "/OmniverseKit_Persp"
+        }
+        dictionary metricsAssembler = {
+            dictionary "/World/ro_usd" = {
+            }
+            int version = 1
+        }
+        dictionary omni_layer = {
+            dictionary locked = {
+            }
+            dictionary muteness = {
+            }
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "World"
+    endTimeCode = 100
+    metersPerUnit = 0.01
+    startTimeCode = 0
+    timeCodesPerSecond = 60
+    upAxis = "Z"
+)
+
+def Xform "World"
+{
+    def "Factory_Lite" (
+        prepend payload = @./FactoryExternalScene/Factory_Lite/Factory_Lite.usd@
+    )
+    {
+        double3 xformOp:rotateXYZ = (0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (-2.7581382533632564, 0.7385992727982966, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+        over "Stage"
+        {
+            over "Floor"
+            {
+                over "FloorB_01"
+                {
+                    float3 xformOp:rotateXYZ = (0, 0, 0)
+                    float3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (101.38815178910113, 0, 0.35)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+                }
+            }
+        }
+
+        def "ro_usd" (
+            prepend payload = @./WorkingROPlant/usd/ro_usd.usd@
+        )
+        {
+            double xformOp:rotateX:unitsResolve = 90
+            float3 xformOp:rotateXYZ = (0, 0, 90)
+            float3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (140.57199493338913, 171.3011984719226, 0.7930557727813853)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+
+            over "PRODUCT_TANK" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = None (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                float3 xformOp:rotateXYZ = (0, 0, 0)
+                float3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (439.6327318750624, 0, -225.0609644311179)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                over "tank_2"
+                {
+                    over "oil_tank" (
+                        prepend apiSchemas = ["PhysicsCollisionAPI"]
+                    )
+                    {
+                        uniform token purpose = "render"
+
+                        def Cube "Water_Volume_Prim"
+                        {
+                            rel material:binding = </World/Looks/WaterMaterial>
+                            double size = 1
+                            float3 xformOp:rotateXYZ = (0, 0, 0)
+                            float3 xformOp:scale = (2, 2, 3)
+                            double3 xformOp:translate = (0, 0, 1.5)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+                        }
+
+                        def TextRenderPrim "tank_info_text"
+                        {
+                            string text = "Tank Level: 0.00 L\nFlow Rate: 0.00 L/min"
+                            float fontSize = 100
+                            bool hasFillDisplay = false
+                            bool hasStrokeDisplay = true
+                            float4 strokeColor = (1.0, 1.0, 1.0, 1.0)
+                            float strokeWidth = 1.0
+                            float3 xformOp:rotateXYZ = (90, 0, 0)
+                            float3 xformOp:scale = (0.05, 0.05, 0.05)
+                            double3 xformOp:translate = (0, 5, 3)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    def OmniGraph "ROPlantDataGraph"
+    {
+        token evaluationMode = "Automatic"
+        token evaluator:type = "execution"
+        token fabricCacheBacking = "Shared"
+        int2 fileFormatVersion = (1, 9)
+        custom string graph:variable:Clicked_Asset_Path (
+            customData = {
+                token scope = "private"
+            }
+            displayName = "Clicked_Asset_Path"
+        )
+        custom float graph:variable:Flow_Rate (
+            customData = {
+                token scope = "private"
+            }
+            displayName = "Flow_Rate"
+        )
+        custom float graph:variable:Tank_Level (
+            customData = {
+                token scope = "private"
+            }
+            displayName = "Tank_Level"
+        )
+        custom string graph:variable:DisplayText (
+            customData = {
+                token scope = "private"
+            }
+            displayName = "DisplayText"
+        )
+        token pipelineStage = "pipelineStageSimulation"
+
+        def OmniGraphNode "read_omnigraph_value" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom token inputs:name = "Tank_Level"
+            custom string inputs:path = ""
+            token node:type = "omni.graph.nodes.ReadOmniGraphValue"
+            int node:typeVersion = 1
+            custom token outputs:value
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (-81.67407, 11.023338)
+        }
+
+        def OmniGraphNode "write_prim_attribute" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom uint inputs:execIn (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            prepend uint inputs:execIn.connect = </World/ROPlantDataGraph/on_playback_tick.outputs:tick>
+            custom token inputs:layerIdentifier
+            custom token inputs:name = "xformOp:translate"
+            custom rel inputs:prim (
+                customData = {
+                    dictionary omni = {
+                        dictionary graph = {
+                            string relType = "target"
+                        }
+                    }
+                }
+            )
+            custom token inputs:primPath = "/World/Factory_Lite/ro_usd/PRODUCT_TANK/tank_2/oil_tank/Water_Volume_Prim"
+            custom bool inputs:usdWriteBack
+            custom bool inputs:usePath = 1
+            custom token inputs:value
+            prepend token inputs:value.connect = </World/ROPlantDataGraph/to_double.outputs:converted>
+            token node:type = "omni.graph.nodes.WritePrimAttribute"
+            int node:typeVersion = 3
+            custom uint outputs:execOut (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            custom bool state:correctlySetup
+            custom uint64 state:destAttrib
+            custom uint64 state:destPath
+            custom uint64 state:destPathToken
+            custom token state:layerIdentifier
+            custom token state:resolvedLayerIdentifier
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (906.3535, 9.78083)
+        }
+
+        def OmniGraphNode "on_playback_tick" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            token node:type = "omni.graph.action.OnPlaybackTick"
+            int node:typeVersion = 2
+            custom double outputs:deltaSeconds
+            custom double outputs:frame
+            custom uint outputs:tick (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            custom double outputs:time
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (436.34067, 208.52751)
+        }
+
+        def OmniGraphNode "make_3_vector" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom token inputs:x = "0.0"
+            custom token inputs:y = "0.0"
+            custom token inputs:z
+            prepend token inputs:z.connect = </World/ROPlantDataGraph/divide.outputs:result>
+            token node:type = "omni.graph.nodes.MakeVector3"
+            int node:typeVersion = 1
+            custom token outputs:tuple
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (282.51328, -2.1062627)
+        }
+
+        def OmniGraphNode "divide" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+            instanceable = false
+        )
+        {
+            custom token inputs:a
+            prepend token inputs:a.connect = </World/ROPlantDataGraph/read_omnigraph_value.outputs:value>
+            custom token inputs:b = "2.0"
+            token node:type = "omni.graph.nodes.Divide"
+            int node:typeVersion = 1
+            custom token outputs:result
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (34.893612, 201.9626)
+        }
+
+        def OmniGraphNode "to_double" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom token inputs:role (
+                allowedTokens = ["None", "Color", "Frame", "Matrix", "Normal", "Point", "Quaternion", "TexCoord", "Timecode", "Vector"]
+            )
+            custom token inputs:value
+            prepend token inputs:value.connect = </World/ROPlantDataGraph/make_3_vector.outputs:tuple>
+            token node:type = "omni.graph.nodes.ToDouble"
+            int node:typeVersion = 1
+            custom token outputs:converted
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (558.7532, 27.757528)
+        }
+
+        def OmniGraphNode "read_flow_rate" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom token inputs:name = "Flow_Rate"
+            custom string inputs:path = ""
+            token node:type = "omni.graph.nodes.ReadOmniGraphValue"
+            int node:typeVersion = 1
+            custom token outputs:value
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (100, 420)
+        }
+
+        def OmniGraphNode "make_array" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom token inputs:a
+            prepend token inputs:a.connect = </World/ROPlantDataGraph/read_omnigraph_value.outputs:value>
+            custom token inputs:b
+            prepend token inputs:b.connect = </World/ROPlantDataGraph/read_flow_rate.outputs:value>
+            token node:type = "omni.graph.nodes.MakeArray"
+            int node:typeVersion = 1
+            custom token outputs:result
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (250, 400)
+        }
+
+        def OmniGraphNode "format_string" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom token inputs:format = "Tank Level: {:.2f} L\nFlow Rate: {:.2f} L/min"
+            custom token inputs:values
+            prepend token inputs:values.connect = </World/ROPlantDataGraph/make_array.outputs:result>
+            token node:type = "omni.graph.nodes.FormatString"
+            int node:typeVersion = 1
+            custom token outputs:result
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (350, 380)
+        }
+
+        def OmniGraphNode "write_text_attribute" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom uint inputs:execIn (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            prepend uint inputs:execIn.connect = </World/ROPlantDataGraph/on_playback_tick.outputs:tick>
+            custom token inputs:layerIdentifier
+            custom token inputs:name = "text"
+            custom rel inputs:prim (
+                customData = {
+                    dictionary omni = {
+                        dictionary graph = {
+                            string relType = "target"
+                        }
+                    }
+                }
+            )
+            custom token inputs:primPath = "/World/Factory_Lite/ro_usd/PRODUCT_TANK/tank_2/oil_tank/tank_info_text"
+            custom bool inputs:usdWriteBack
+            custom bool inputs:usePath = 1
+            custom token inputs:value
+            prepend token inputs:value.connect = </World/ROPlantDataGraph/format_string.outputs:result>
+            token node:type = "omni.graph.nodes.WritePrimAttribute"
+            int node:typeVersion = 3
+            custom uint outputs:execOut (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            custom bool state:correctlySetup
+            custom uint64 state:destAttrib
+            custom uint64 state:destPath
+            custom uint64 state:destPathToken
+            custom token state:layerIdentifier
+            custom token state:resolvedLayerIdentifier
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (600, 380)
+        }
+    }
+
+    def "Looks"
+    {
+        def Material "WaterMaterial"
+        {
+            def Shader "Shader"
+            {
+                uniform token info:id
+            }
+        }
+    }
+}
+
+def Xform "Environment"
+{
+    double3 xformOp:rotateXYZ = (0, 0, 0)
+    double3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+    def DomeLight "Sky" (
+        prepend apiSchemas = ["ShapingAPI"]
+    )
+    {
+        float inputs:intensity = 1000
+        float inputs:shaping:cone:angle = 180
+        float inputs:shaping:cone:softness
+        float inputs:shaping:focus
+        color3f inputs:shaping:focusTint
+        asset inputs:shaping:ies:file
+        float inputs:specular = 1
+        asset inputs:texture:file = @../kit-app-template/_build/linux-x86_64/release/extscache/omni.light_rigs-106.3.7/light_rig_data/light_rigs/HDR/partly_cloudy.hdr@
+        token inputs:texture:format = "latlong"
+        custom int omni:rtx:usdluxVersion = 2505
+        token visibility = "inherited"
+        double3 xformOp:rotateXYZ = (90, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+    }
+
+    def DistantLight "DistantLight" (
+        prepend apiSchemas = ["ShapingAPI"]
+    )
+    {
+        float inputs:angle = 4.3
+        float inputs:intensity = 3000
+        bool inputs:normalize = 1
+        float inputs:shaping:cone:angle = 180
+        float inputs:shaping:cone:softness
+        float inputs:shaping:focus
+        color3f inputs:shaping:focusTint
+        asset inputs:shaping:ies:file
+        custom int omni:rtx:usdluxVersion = 2505
+        token visibility = "inherited"
+        double3 xformOp:rotateXYZ = (41.35092544555664, 0.517652153968811, -35.92928695678711)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+    }
+}
+
+def "Render" (
+    hide_in_stage_window = true
+    no_delete = true
+)
+{
+    def "OmniverseKit"
+    {
+        def "HydraTextures" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            def RenderProduct "omni_kit_widget_viewport_ViewportTexture_0" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </OmniverseKit_Persp>
+                token omni:rtx:ambientOcclusion:denoiserMode = "none"
+                token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
+                token omni:rtx:background:source:type = "domeLight"
+                bool omni:rtx:debug:view:pixelDebug:enableFixedTextPos = 1
+                token omni:rtx:directLighting:sampledLighting:denoisingTechnique = "None"
+                bool omni:rtx:dlss:frameGeneration = 1
+                bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
+                token omni:rtx:lights:dome:samplingStrategy = "approximatedImageBasedLighting"
+                bool omni:rtx:meshlights:enabled = 1
+                token omni:rtx:post:dlss:execMode = "balanced"
+                bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
+                bool omni:rtx:post:registeredCompositing:invertToneMap = 1
+                int omni:rtx:pt:maxSamplesPerLaunch = 2073600
+                int omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
+                int omni:rtx:realtime:mgpu:tileCount = 2
+                bool omni:rtx:reflections:denoiser:enabled = 0
+                token omni:rtx:rendermode = "RealTimePathTracing"
+                color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
+                float omni:rtx:rt:ambientLight:intensity = 1
+                bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
+                float omni:rtx:rt:reflections:roughnessCacheThreshold = 0.11
+                int omni:rtx:rt:sss:samples = 1
+                int omni:rtx:rtpt:maxVolumeBounces = 15
+                float omni:rtx:rtpt:modulatingRoughnessThreshold = 0.08
+                int omni:rtx:scene:hydra:minFreeDeviceMemory = 3000
+                uint omni:rtx:viewTile:limit = 4294967295
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1186, 493)
+            }
+
+            def RenderProduct "omni_kit_widget_viewport_ViewportTexture_1" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </OmniverseKit_Persp>
+                token omni:rtx:ambientOcclusion:denoiserMode = "none"
+                token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
+                token omni:rtx:background:source:type = "domeLight"
+                bool omni:rtx:debug:view:pixelDebug:enableFixedTextPos = 1
+                token omni:rtx:directLighting:sampledLighting:denoisingTechnique = "None"
+                bool omni:rtx:dlss:frameGeneration = 1
+                bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
+                bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
+                bool omni:rtx:post:registeredCompositing:invertToneMap = 1
+                int omni:rtx:pt:maxSamplesPerLaunch = 2073600
+                int omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
+                int omni:rtx:realtime:mgpu:tileCount = 2
+                bool omni:rtx:reflections:denoiser:enabled = 0
+                token omni:rtx:rendermode = "RealTimePathTracing"
+                color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
+                bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
+                int omni:rtx:rt:sss:samples = 1
+                int omni:rtx:rtpt:maxVolumeBounces = 15
+                float omni:rtx:rtpt:modulatingRoughnessThreshold = 0.08
+                uint omni:rtx:viewTile:limit = 4294967295
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (588, 621)
+            }
+        }
+    }
+
+    def RenderSettings "OmniverseGlobalRenderSettings" (
+        prepend apiSchemas = ["OmniRtxSettingsGlobalRtAdvancedAPI_1", "OmniRtxSettingsGlobalPtAdvancedAPI_1"]
+        no_delete = true
+    )
+    {
+        bool omni:rtx:pt:multigpu:enabled = 0
+        rel products = [
+            </Render/OmniverseKit/HydraTextures/omni_kit_widget_viewport_ViewportTexture_0>,
+            </Render/OmniverseKit/HydraTextures/omni_kit_widget_viewport_ViewportTexture_1>,
+        ]
+    }
+
+    def "Vars"
+    {
+        def RenderVar "LdrColor" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            uniform string sourceName = "LdrColor"
+        }
+    }
+}
+
+over "OmniverseKit_Persp" (
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float exposure:responsivity = 1.1026709
+    float exposure:time = 0.02
+    float focalLength = 8
+    float focusDistance = 400
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -2748.607012479399)
+    bool omni:rtx:autoExposure:enabled = 1
+    float3 xformOp:rotateXYZ = (80.63795, -5.724998e-14, 143.10823)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (827.4451846742721, 2362.179635652516, 839.9578654560144)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Front" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 5000
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -50000)
+    token projection = "orthographic"
+    float verticalAperture = 5000
+    float3 xformOp:rotateXYZ = (90, -1.2722219e-14, 90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (50000, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Right" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 5000
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -50000)
+    token projection = "orthographic"
+    float verticalAperture = 5000
+    float3 xformOp:rotateXYZ = (90, -1.41245e-30, 1.2722219e-14)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, -50000, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Top" (
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float horizontalAperture = 5000
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -50000)
+    token projection = "orthographic"
+    float verticalAperture = 5000
+    float3 xformOp:rotateXYZ = (-1.2722219e-14, -7.016709e-15, -90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 50000)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
