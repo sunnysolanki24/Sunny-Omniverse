@@ -1,0 +1,849 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary cameraSettings = {
+            dictionary Front = {
+                double3 position = (50000, 0, 0)
+                double radius = 500
+            }
+            dictionary Perspective = {
+                double3 position = (-617.0113350452576, -1147.579966095634, 330.66255928595575)
+                double3 target = (359.147657786644, -661.1394980982745, 15.4042420570226)
+            }
+            dictionary Right = {
+                double3 position = (0, -50000, 0)
+                double radius = 500
+            }
+            dictionary Top = {
+                double3 position = (0, 0, 50000)
+                double radius = 500
+            }
+            string boundCamera = "/World/Factory_Lite/Cameras/Camera"
+        }
+        dictionary metricsAssembler = {
+            dictionary "/World/ro_usd" = {
+            }
+            int version = 1
+        }
+        dictionary omni_layer = {
+            string authoring_layer = "./TuringDigitalROPlant.usd"
+            dictionary locked = {
+            }
+            dictionary muteness = {
+            }
+        }
+        dictionary renderSettings = {
+        }
+    }
+    defaultPrim = "World"
+    endTimeCode = 100
+    metersPerUnit = 0.01
+    startTimeCode = 0
+    timeCodesPerSecond = 60
+    upAxis = "Z"
+)
+
+def Xform "World"
+{
+    def "Factory_Lite" (
+        prepend payload = @./FactoryExternalScene/Factory_Lite/Factory_Lite.usd@
+    )
+    {
+        double3 xformOp:rotateXYZ = (0, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (-2.7581382533632564, 0.7385992727982966, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+        over "Stage"
+        {
+            over "Floor"
+            {
+                over "FloorB_01"
+                {
+                    float3 xformOp:rotateXYZ = (0, 0, 0)
+                    float3 xformOp:scale = (1, 1, 1)
+                    double3 xformOp:translate = (101.38815178910113, 0, 0.35)
+                    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+                }
+            }
+        }
+
+        def "ro_usd" (
+            prepend payload = @./WorkingROPlant/usd/ro_usd.usd@
+        )
+        {
+            double xformOp:rotateX:unitsResolve = 90
+            float3 xformOp:rotateXYZ = (0, 0, 90)
+            float3 xformOp:scale = (1, 1, 1)
+            double3 xformOp:translate = (140.57199493338913, 171.3011984719226, 0.7930557727813853)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale", "xformOp:rotateX:unitsResolve"]
+
+            over "PRODUCT_TANK" (
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = None (
+                    bindMaterialAs = "weakerThanDescendants"
+                )
+                float3 xformOp:rotateXYZ = (0, 0, 0)
+                float3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (439.6327318750624, 0, -225.0609644311179)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+                over "tank_2"
+                {
+                    over "oil_tank" (
+                        prepend apiSchemas = ["PhysicsCollisionAPI", "MaterialBindingAPI"]
+                    )
+                    {
+                        rel material:binding = None (
+                            bindMaterialAs = "strongerThanDescendants"
+                        )
+                        uniform token purpose = "render"
+                        token visibility = "inherited"
+
+                        def Cube "Water_Volume_Prim"
+                        {
+                            rel material:binding = </World/Looks/WaterMaterial>
+                            double size = 1
+                            float3 xformOp:rotateXYZ = (0, 0, 0)
+                            float3 xformOp:scale = (2, 2, 3)
+                            double3 xformOp:translate = (0, 0, 1.5)
+                            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+                        }
+                    }
+
+                    def Mesh "water_volume" (
+                        prepend apiSchemas = ["MaterialBindingAPI"]
+                    )
+                    {
+                        float3[] extent = [(-50, -50, -50), (50, 50, 50)]
+                        int[] faceVertexCounts = [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+                        int[] faceVertexIndices = [0, 1, 33, 32, 1, 2, 34, 33, 2, 3, 35, 34, 3, 4, 36, 35, 4, 5, 37, 36, 5, 6, 38, 37, 6, 7, 39, 38, 7, 8, 40, 39, 8, 9, 41, 40, 9, 10, 42, 41, 10, 11, 43, 42, 11, 12, 44, 43, 12, 13, 45, 44, 13, 14, 46, 45, 14, 15, 47, 46, 15, 16, 48, 47, 16, 17, 49, 48, 17, 18, 50, 49, 18, 19, 51, 50, 19, 20, 52, 51, 20, 21, 53, 52, 21, 22, 54, 53, 22, 23, 55, 54, 23, 24, 56, 55, 24, 25, 57, 56, 25, 26, 58, 57, 26, 27, 59, 58, 27, 28, 60, 59, 28, 29, 61, 60, 29, 30, 62, 61, 30, 31, 63, 62, 31, 0, 32, 63, 0, 64, 1, 1, 64, 2, 2, 64, 3, 3, 64, 4, 4, 64, 5, 5, 64, 6, 6, 64, 7, 7, 64, 8, 8, 64, 9, 9, 64, 10, 10, 64, 11, 11, 64, 12, 12, 64, 13, 13, 64, 14, 14, 64, 15, 15, 64, 16, 16, 64, 17, 17, 64, 18, 18, 64, 19, 19, 64, 20, 20, 64, 21, 21, 64, 22, 22, 64, 23, 23, 64, 24, 24, 64, 25, 25, 64, 26, 26, 64, 27, 27, 64, 28, 28, 64, 29, 29, 64, 30, 30, 64, 31, 31, 64, 0, 32, 33, 65, 33, 34, 65, 34, 35, 65, 35, 36, 65, 36, 37, 65, 37, 38, 65, 38, 39, 65, 39, 40, 65, 40, 41, 65, 41, 42, 65, 42, 43, 65, 43, 44, 65, 44, 45, 65, 45, 46, 65, 46, 47, 65, 47, 48, 65, 48, 49, 65, 49, 50, 65, 50, 51, 65, 51, 52, 65, 52, 53, 65, 53, 54, 65, 54, 55, 65, 55, 56, 65, 56, 57, 65, 57, 58, 65, 58, 59, 65, 59, 60, 65, 60, 61, 65, 61, 62, 65, 62, 63, 65, 63, 32, 65]
+                        rel material:binding = </World/Looks/Water_Ocean_Blue_Reef> (
+                            bindMaterialAs = "weakerThanDescendants"
+                        )
+                        normal3f[] normals = [(50, 0, 0), (49.03926, 9.754517, 0), (49.03926, 9.754517, 0), (50, 0, 0), (49.03926, 9.754517, 0), (46.193974, 19.13417, 0), (46.193974, 19.13417, 0), (49.03926, 9.754517, 0), (46.193974, 19.13417, 0), (41.57348, 27.778513, 0), (41.57348, 27.778513, 0), (46.193974, 19.13417, 0), (41.57348, 27.778513, 0), (35.35534, 35.35534, 0), (35.35534, 35.35534, 0), (41.57348, 27.778513, 0), (35.35534, 35.35534, 0), (27.778513, 41.57348, 0), (27.778513, 41.57348, 0), (35.35534, 35.35534, 0), (27.778513, 41.57348, 0), (19.13417, 46.193974, 0), (19.13417, 46.193974, 0), (27.778513, 41.57348, 0), (19.13417, 46.193974, 0), (9.754517, 49.03926, 0), (9.754517, 49.03926, 0), (19.13417, 46.193974, 0), (9.754517, 49.03926, 0), (3.061617e-15, 50, 0), (3.061617e-15, 50, 0), (9.754517, 49.03926, 0), (3.061617e-15, 50, 0), (-9.754517, 49.03926, 0), (-9.754517, 49.03926, 0), (3.061617e-15, 50, 0), (-9.754517, 49.03926, 0), (-19.13417, 46.193974, 0), (-19.13417, 46.193974, 0), (-9.754517, 49.03926, 0), (-19.13417, 46.193974, 0), (-27.778513, 41.57348, 0), (-27.778513, 41.57348, 0), (-19.13417, 46.193974, 0), (-27.778513, 41.57348, 0), (-35.35534, 35.35534, 0), (-35.35534, 35.35534, 0), (-27.778513, 41.57348, 0), (-35.35534, 35.35534, 0), (-41.57348, 27.778513, 0), (-41.57348, 27.778513, 0), (-35.35534, 35.35534, 0), (-41.57348, 27.778513, 0), (-46.193974, 19.13417, 0), (-46.193974, 19.13417, 0), (-41.57348, 27.778513, 0), (-46.193974, 19.13417, 0), (-49.03926, 9.754517, 0), (-49.03926, 9.754517, 0), (-46.193974, 19.13417, 0), (-49.03926, 9.754517, 0), (-50, 6.123234e-15, 0), (-50, 6.123234e-15, 0), (-49.03926, 9.754517, 0), (-50, 6.123234e-15, 0), (-49.03926, -9.754517, 0), (-49.03926, -9.754517, 0), (-50, 6.123234e-15, 0), (-49.03926, -9.754517, 0), (-46.193974, -19.13417, 0), (-46.193974, -19.13417, 0), (-49.03926, -9.754517, 0), (-46.193974, -19.13417, 0), (-41.57348, -27.778513, 0), (-41.57348, -27.778513, 0), (-46.193974, -19.13417, 0), (-41.57348, -27.778513, 0), (-35.35534, -35.35534, 0), (-35.35534, -35.35534, 0), (-41.57348, -27.778513, 0), (-35.35534, -35.35534, 0), (-27.778513, -41.57348, 0), (-27.778513, -41.57348, 0), (-35.35534, -35.35534, 0), (-27.778513, -41.57348, 0), (-19.13417, -46.193974, 0), (-19.13417, -46.193974, 0), (-27.778513, -41.57348, 0), (-19.13417, -46.193974, 0), (-9.754517, -49.03926, 0), (-9.754517, -49.03926, 0), (-19.13417, -46.193974, 0), (-9.754517, -49.03926, 0), (-9.184851e-15, -50, 0), (-9.184851e-15, -50, 0), (-9.754517, -49.03926, 0), (-9.184851e-15, -50, 0), (9.754517, -49.03926, 0), (9.754517, -49.03926, 0), (-9.184851e-15, -50, 0), (9.754517, -49.03926, 0), (19.13417, -46.193974, 0), (19.13417, -46.193974, 0), (9.754517, -49.03926, 0), (19.13417, -46.193974, 0), (27.778513, -41.57348, 0), (27.778513, -41.57348, 0), (19.13417, -46.193974, 0), (27.778513, -41.57348, 0), (35.35534, -35.35534, 0), (35.35534, -35.35534, 0), (27.778513, -41.57348, 0), (35.35534, -35.35534, 0), (41.57348, -27.778513, 0), (41.57348, -27.778513, 0), (35.35534, -35.35534, 0), (41.57348, -27.778513, 0), (46.193974, -19.13417, 0), (46.193974, -19.13417, 0), (41.57348, -27.778513, 0), (46.193974, -19.13417, 0), (49.03926, -9.754517, 0), (49.03926, -9.754517, 0), (46.193974, -19.13417, 0), (49.03926, -9.754517, 0), (50, 0, 0), (50, 0, 0), (49.03926, -9.754517, 0), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, -1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1), (0, 0, 1)] (
+                            interpolation = "faceVarying"
+                        )
+                        point3f[] points = [(50, 0, -50), (49.03926, 9.754517, -50), (46.193974, 19.13417, -50), (41.57348, 27.778513, -50), (35.35534, 35.35534, -50), (27.778513, 41.57348, -50), (19.13417, 46.193974, -50), (9.754517, 49.03926, -50), (3.061617e-15, 50, -50), (-9.754517, 49.03926, -50), (-19.13417, 46.193974, -50), (-27.778513, 41.57348, -50), (-35.35534, 35.35534, -50), (-41.57348, 27.778513, -50), (-46.193974, 19.13417, -50), (-49.03926, 9.754517, -50), (-50, 6.123234e-15, -50), (-49.03926, -9.754517, -50), (-46.193974, -19.13417, -50), (-41.57348, -27.778513, -50), (-35.35534, -35.35534, -50), (-27.778513, -41.57348, -50), (-19.13417, -46.193974, -50), (-9.754517, -49.03926, -50), (-9.184851e-15, -50, -50), (9.754517, -49.03926, -50), (19.13417, -46.193974, -50), (27.778513, -41.57348, -50), (35.35534, -35.35534, -50), (41.57348, -27.778513, -50), (46.193974, -19.13417, -50), (49.03926, -9.754517, -50), (50, 0, 50), (49.03926, 9.754517, 50), (46.193974, 19.13417, 50), (41.57348, 27.778513, 50), (35.35534, 35.35534, 50), (27.778513, 41.57348, 50), (19.13417, 46.193974, 50), (9.754517, 49.03926, 50), (3.061617e-15, 50, 50), (-9.754517, 49.03926, 50), (-19.13417, 46.193974, 50), (-27.778513, 41.57348, 50), (-35.35534, 35.35534, 50), (-41.57348, 27.778513, 50), (-46.193974, 19.13417, 50), (-49.03926, 9.754517, 50), (-50, 6.123234e-15, 50), (-49.03926, -9.754517, 50), (-46.193974, -19.13417, 50), (-41.57348, -27.778513, 50), (-35.35534, -35.35534, 50), (-27.778513, -41.57348, 50), (-19.13417, -46.193974, 50), (-9.754517, -49.03926, 50), (-9.184851e-15, -50, 50), (9.754517, -49.03926, 50), (19.13417, -46.193974, 50), (27.778513, -41.57348, 50), (35.35534, -35.35534, 50), (41.57348, -27.778513, 50), (46.193974, -19.13417, 50), (49.03926, -9.754517, 50), (0, 0, -50), (0, 0, 50)]
+                        texCoord2f[] primvars:st = [(0, 0), (0.03125, 0), (0.03125, 1), (0, 1), (0.03125, 0), (0.0625, 0), (0.0625, 1), (0.03125, 1), (0.0625, 0), (0.09375, 0), (0.09375, 1), (0.0625, 1), (0.09375, 0), (0.125, 0), (0.125, 1), (0.09375, 1), (0.125, 0), (0.15625, 0), (0.15625, 1), (0.125, 1), (0.15625, 0), (0.1875, 0), (0.1875, 1), (0.15625, 1), (0.1875, 0), (0.21875, 0), (0.21875, 1), (0.1875, 1), (0.21875, 0), (0.25, 0), (0.25, 1), (0.21875, 1), (0.25, 0), (0.28125, 0), (0.28125, 1), (0.25, 1), (0.28125, 0), (0.3125, 0), (0.3125, 1), (0.28125, 1), (0.3125, 0), (0.34375, 0), (0.34375, 1), (0.3125, 1), (0.34375, 0), (0.375, 0), (0.375, 1), (0.34375, 1), (0.375, 0), (0.40625, 0), (0.40625, 1), (0.375, 1), (0.40625, 0), (0.4375, 0), (0.4375, 1), (0.40625, 1), (0.4375, 0), (0.46875, 0), (0.46875, 1), (0.4375, 1), (0.46875, 0), (0.5, 0), (0.5, 1), (0.46875, 1), (0.5, 0), (0.53125, 0), (0.53125, 1), (0.5, 1), (0.53125, 0), (0.5625, 0), (0.5625, 1), (0.53125, 1), (0.5625, 0), (0.59375, 0), (0.59375, 1), (0.5625, 1), (0.59375, 0), (0.625, 0), (0.625, 1), (0.59375, 1), (0.625, 0), (0.65625, 0), (0.65625, 1), (0.625, 1), (0.65625, 0), (0.6875, 0), (0.6875, 1), (0.65625, 1), (0.6875, 0), (0.71875, 0), (0.71875, 1), (0.6875, 1), (0.71875, 0), (0.75, 0), (0.75, 1), (0.71875, 1), (0.75, 0), (0.78125, 0), (0.78125, 1), (0.75, 1), (0.78125, 0), (0.8125, 0), (0.8125, 1), (0.78125, 1), (0.8125, 0), (0.84375, 0), (0.84375, 1), (0.8125, 1), (0.84375, 0), (0.875, 0), (0.875, 1), (0.84375, 1), (0.875, 0), (0.90625, 0), (0.90625, 1), (0.875, 1), (0.90625, 0), (0.9375, 0), (0.9375, 1), (0.90625, 1), (0.9375, 0), (0.96875, 0), (0.96875, 1), (0.9375, 1), (0.96875, 0), (1, 0), (1, 1), (0.96875, 1), (1, 0.5), (0.5, 0.5), (0.99039257, 0.40245485), (0.99039257, 0.40245485), (0.5, 0.5), (0.9619397, 0.3086583), (0.9619397, 0.3086583), (0.5, 0.5), (0.91573477, 0.22221488), (0.91573477, 0.22221488), (0.5, 0.5), (0.8535534, 0.14644659), (0.8535534, 0.14644659), (0.5, 0.5), (0.7777851, 0.08426523), (0.7777851, 0.08426523), (0.5, 0.5), (0.6913417, 0.038060308), (0.6913417, 0.038060308), (0.5, 0.5), (0.59754515, 0.009607434), (0.59754515, 0.009607434), (0.5, 0.5), (0.5, 0), (0.5, 0), (0.5, 0.5), (0.40245482, 0.009607434), (0.40245482, 0.009607434), (0.5, 0.5), (0.3086583, 0.038060308), (0.3086583, 0.038060308), (0.5, 0.5), (0.22221488, 0.08426523), (0.22221488, 0.08426523), (0.5, 0.5), (0.14644662, 0.14644659), (0.14644662, 0.14644659), (0.5, 0.5), (0.0842652, 0.22221488), (0.0842652, 0.22221488), (0.5, 0.5), (0.038060278, 0.3086583), (0.038060278, 0.3086583), (0.5, 0.5), (0.0096074045, 0.40245485), (0.0096074045, 0.40245485), (0.5, 0.5), (0, 0.5), (0, 0.5), (0.5, 0.5), (0.0096074045, 0.59754515), (0.0096074045, 0.59754515), (0.5, 0.5), (0.038060278, 0.6913417), (0.038060278, 0.6913417), (0.5, 0.5), (0.0842652, 0.7777851), (0.0842652, 0.7777851), (0.5, 0.5), (0.14644662, 0.8535534), (0.14644662, 0.8535534), (0.5, 0.5), (0.22221488, 0.91573477), (0.22221488, 0.91573477), (0.5, 0.5), (0.3086583, 0.9619397), (0.3086583, 0.9619397), (0.5, 0.5), (0.40245482, 0.99039257), (0.40245482, 0.99039257), (0.5, 0.5), (0.5, 1), (0.5, 1), (0.5, 0.5), (0.59754515, 0.99039257), (0.59754515, 0.99039257), (0.5, 0.5), (0.6913417, 0.9619397), (0.6913417, 0.9619397), (0.5, 0.5), (0.7777851, 0.91573477), (0.7777851, 0.91573477), (0.5, 0.5), (0.8535534, 0.8535534), (0.8535534, 0.8535534), (0.5, 0.5), (0.91573477, 0.7777851), (0.91573477, 0.7777851), (0.5, 0.5), (0.9619397, 0.6913417), (0.9619397, 0.6913417), (0.5, 0.5), (0.99039257, 0.59754515), (0.99039257, 0.59754515), (0.5, 0.5), (1, 0.5), (1, 0.5), (0.99039257, 0.59754515), (0.5, 0.5), (0.99039257, 0.59754515), (0.9619397, 0.6913417), (0.5, 0.5), (0.9619397, 0.6913417), (0.91573477, 0.7777851), (0.5, 0.5), (0.91573477, 0.7777851), (0.8535534, 0.8535534), (0.5, 0.5), (0.8535534, 0.8535534), (0.7777851, 0.91573477), (0.5, 0.5), (0.7777851, 0.91573477), (0.6913417, 0.9619397), (0.5, 0.5), (0.6913417, 0.9619397), (0.59754515, 0.99039257), (0.5, 0.5), (0.59754515, 0.99039257), (0.5, 1), (0.5, 0.5), (0.5, 1), (0.40245482, 0.99039257), (0.5, 0.5), (0.40245482, 0.99039257), (0.3086583, 0.9619397), (0.5, 0.5), (0.3086583, 0.9619397), (0.22221488, 0.91573477), (0.5, 0.5), (0.22221488, 0.91573477), (0.14644662, 0.8535534), (0.5, 0.5), (0.14644662, 0.8535534), (0.0842652, 0.7777851), (0.5, 0.5), (0.0842652, 0.7777851), (0.038060278, 0.6913417), (0.5, 0.5), (0.038060278, 0.6913417), (0.0096074045, 0.59754515), (0.5, 0.5), (0.0096074045, 0.59754515), (0, 0.5), (0.5, 0.5), (0, 0.5), (0.0096074045, 0.40245482), (0.5, 0.5), (0.0096074045, 0.40245482), (0.038060278, 0.3086583), (0.5, 0.5), (0.038060278, 0.3086583), (0.0842652, 0.22221488), (0.5, 0.5), (0.0842652, 0.22221488), (0.14644662, 0.14644662), (0.5, 0.5), (0.14644662, 0.14644662), (0.22221488, 0.0842652), (0.5, 0.5), (0.22221488, 0.0842652), (0.3086583, 0.038060278), (0.5, 0.5), (0.3086583, 0.038060278), (0.40245482, 0.0096074045), (0.5, 0.5), (0.40245482, 0.0096074045), (0.5, 0), (0.5, 0.5), (0.5, 0), (0.59754515, 0.0096074045), (0.5, 0.5), (0.59754515, 0.0096074045), (0.6913417, 0.038060278), (0.5, 0.5), (0.6913417, 0.038060278), (0.7777851, 0.0842652), (0.5, 0.5), (0.7777851, 0.0842652), (0.8535534, 0.14644662), (0.5, 0.5), (0.8535534, 0.14644662), (0.91573477, 0.22221488), (0.5, 0.5), (0.91573477, 0.22221488), (0.9619397, 0.3086583), (0.5, 0.5), (0.9619397, 0.3086583), (0.99039257, 0.40245482), (0.5, 0.5), (0.99039257, 0.40245482), (1, 0.5), (0.5, 0.5)] (
+                            interpolation = "faceVarying"
+                        )
+                        uniform token subdivisionScheme = "none"
+                        token visibility = "invisible"
+                        double3 xformOp:rotateXYZ = (-89.8708702093665, 0, 0)
+                        double3 xformOp:scale = (2.159999999999199, 2.159999999999202, 4.031445917413352)
+                        double3 xformOp:translate = (0, 1.7053025658242404e-12, 1.8097529454839503)
+                        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+                    }
+                }
+            }
+        }
+
+        over "Cameras"
+        {
+            over "Workcell_Cam" (
+                prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+            )
+            {
+                float exposure:responsivity = 1.1026709
+                float exposure:time = 0.02
+                custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1287.6692150032572)
+                double3 xformOp:rotateYXZ = (76.87188689453217, -1.9326762412674725e-12, 406.17641177734527)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (1095.6633401037375, -1506.6216632948888, 524.0750708469192)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateYXZ", "xformOp:scale"]
+            }
+
+            over "Camera" (
+                prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+            )
+            {
+                float exposure:responsivity = 1.1026709
+                float exposure:time = 0.02
+                float focusDistance = 395
+                custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1643.7869227230412)
+                double3 xformOp:rotateYXZ = (95.97573499511782, 1.8189894035458565e-12, 288.2951378674296)
+                double3 xformOp:scale = (1, 1, 1)
+                double3 xformOp:translate = (-924.7199391514865, -124.79243521846226, 327.9290976686649)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateYXZ", "xformOp:scale"]
+            }
+        }
+    }
+
+    def OmniGraph "ROPlantDataGraph"
+    {
+        token evaluationMode = "Automatic"
+        token evaluator:type = "execution"
+        token fabricCacheBacking = "Shared"
+        int2 fileFormatVersion = (1, 9)
+        custom string graph:variable:Clicked_Asset_Path (
+            customData = {
+                token scope = "private"
+            }
+            displayName = "Clicked_Asset_Path"
+        )
+        custom float graph:variable:Flow_Rate (
+            customData = {
+                token scope = "private"
+            }
+            displayName = "Flow_Rate"
+        )
+        custom float graph:variable:Tank_Level (
+            customData = {
+                token scope = "private"
+            }
+            displayName = "Tank_Level"
+        )
+        token pipelineStage = "pipelineStageSimulation"
+
+        def OmniGraphNode "read_omnigraph_value" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom token inputs:name = "Tank_Level"
+            custom string inputs:path = ""
+            token node:type = "omni.graph.nodes.ReadOmniGraphValue"
+            int node:typeVersion = 1
+            custom token outputs:value
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (-81.67407, 11.023338)
+        }
+
+        def OmniGraphNode "write_prim_attribute" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom uint inputs:execIn (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            prepend uint inputs:execIn.connect = </World/ROPlantDataGraph/on_playback_tick.outputs:tick>
+            custom token inputs:layerIdentifier
+            custom token inputs:name = "xformOp:translate"
+            custom rel inputs:prim (
+                customData = {
+                    dictionary omni = {
+                        dictionary graph = {
+                            string relType = "target"
+                        }
+                    }
+                }
+            )
+            custom token inputs:primPath = "/World/Factory_Lite/ro_usd/PRODUCT_TANK/tank_2/oil_tank/Water_Volume_Prim"
+            custom bool inputs:usdWriteBack
+            custom bool inputs:usePath = 1
+            custom token inputs:value
+            prepend token inputs:value.connect = </World/ROPlantDataGraph/to_double.outputs:converted>
+            token node:type = "omni.graph.nodes.WritePrimAttribute"
+            int node:typeVersion = 3
+            custom uint outputs:execOut (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            custom bool state:correctlySetup
+            custom uint64 state:destAttrib
+            custom uint64 state:destPath
+            custom uint64 state:destPathToken
+            custom token state:layerIdentifier
+            custom token state:resolvedLayerIdentifier
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (906.3535, 9.78083)
+        }
+
+        def OmniGraphNode "on_playback_tick" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            token node:type = "omni.graph.action.OnPlaybackTick"
+            int node:typeVersion = 2
+            custom double outputs:deltaSeconds
+            custom double outputs:frame
+            custom uint outputs:tick (
+                customData = {
+                    bool isExecution = 1
+                }
+            )
+            custom double outputs:time
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (436.34067, 208.52751)
+        }
+
+        def OmniGraphNode "make_3_vector" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom token inputs:x = "0.0"
+            custom token inputs:y = "0.0"
+            custom token inputs:z
+            prepend token inputs:z.connect = </World/ROPlantDataGraph/divide.outputs:result>
+            token node:type = "omni.graph.nodes.MakeVector3"
+            int node:typeVersion = 1
+            custom token outputs:tuple
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (282.51328, -2.1062627)
+        }
+
+        def OmniGraphNode "divide" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+            instanceable = false
+        )
+        {
+            custom token inputs:a
+            prepend token inputs:a.connect = </World/ROPlantDataGraph/read_omnigraph_value.outputs:value>
+            custom token inputs:b = "2.0"
+            token node:type = "omni.graph.nodes.Divide"
+            int node:typeVersion = 1
+            custom token outputs:result
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (34.893612, 201.9626)
+        }
+
+        def OmniGraphNode "to_double" (
+            prepend apiSchemas = ["NodeGraphNodeAPI"]
+        )
+        {
+            custom token inputs:role (
+                allowedTokens = ["None", "Color", "Frame", "Matrix", "Normal", "Point", "Quaternion", "TexCoord", "Timecode", "Vector"]
+            )
+            custom token inputs:value
+            prepend token inputs:value.connect = </World/ROPlantDataGraph/make_3_vector.outputs:tuple>
+            token node:type = "omni.graph.nodes.ToDouble"
+            int node:typeVersion = 1
+            custom token outputs:converted
+            uniform token ui:nodegraph:node:expansionState = "open"
+            uniform float2 ui:nodegraph:node:pos = (558.7532, 27.757528)
+        }
+    }
+
+    def "Looks"
+    {
+        def Material "OmniGlass"
+        {
+            token outputs:mdl:displacement.connect = </World/Looks/OmniGlass/Shader.outputs:out>
+            token outputs:mdl:surface.connect = </World/Looks/OmniGlass/Shader.outputs:out>
+            token outputs:mdl:volume.connect = </World/Looks/OmniGlass/Shader.outputs:out>
+            uniform token ui:nodegraph:node:expansionState = "open"
+
+            def Shader "Shader"
+            {
+                uniform token info:implementationSource = "sourceAsset"
+                uniform asset info:mdl:sourceAsset = @OmniGlass.mdl@
+                uniform token info:mdl:sourceAsset:subIdentifier = "OmniGlass"
+                float inputs:cutout_opacity = 0.41 (
+                    displayGroup = "Opacity"
+                    displayName = "Opacity Amount"
+                    renderType = "float"
+                )
+                int inputs:cutout_opacity_mono_source (
+                    displayGroup = "Opacity"
+                    displayName = "Opacity Mono Source"
+                    renderType = "enum"
+                )
+                asset inputs:cutout_opacity_texture (
+                    displayGroup = "Opacity"
+                    displayName = "Opacity Map"
+                    renderType = "texture_2d"
+                )
+                float inputs:depth (
+                    displayGroup = "Color"
+                    displayName = "Volume Absorption Scale"
+                    renderType = "float"
+                )
+                bool inputs:enable_opacity = 1 (
+                    displayGroup = "Opacity"
+                    displayName = "Enable Opacity"
+                    renderType = "bool"
+                )
+                bool inputs:flip_tangent_u (
+                    displayGroup = "Normal"
+                    displayName = "Normal Map Flip U Tangent"
+                    renderType = "bool"
+                )
+                bool inputs:flip_tangent_v (
+                    displayGroup = "Normal"
+                    displayName = "Normal Map Flip V Tangent"
+                    renderType = "bool"
+                )
+                float inputs:frosting_roughness = 0 (
+                    displayGroup = "Roughness"
+                    displayName = "Glass Roughness"
+                    renderType = "float"
+                )
+                float inputs:geometry_normal_roughness_strength (
+                    displayGroup = "Normal"
+                    displayName = "Normal map to roughness weight"
+                    renderType = "float"
+                )
+                color3f inputs:glass_color (
+                    displayGroup = "Color"
+                    displayName = "Glass Color"
+                    renderType = "color"
+                )
+                asset inputs:glass_color_texture (
+                    displayGroup = "Color"
+                    displayName = "Glass Color Texture"
+                    renderType = "texture_2d"
+                )
+                float inputs:glass_ior (
+                    displayGroup = "Refraction"
+                    displayName = "Glass IOR"
+                    renderType = "float"
+                )
+                float inputs:normal_map_strength (
+                    displayGroup = "Normal"
+                    displayName = "Normal Map Strength"
+                    renderType = "float"
+                )
+                asset inputs:normal_map_texture (
+                    displayGroup = "Normal"
+                    displayName = "Normal Map Texture"
+                    renderType = "texture_2d"
+                )
+                float inputs:opacity_threshold = 0.24 (
+                    displayGroup = "Opacity"
+                    displayName = "Opacity Threshold"
+                    renderType = "float"
+                )
+                bool inputs:project_uvw (
+                    displayGroup = "UV"
+                    displayName = "Enable Project UVW Coordinates"
+                    renderType = "bool"
+                )
+                color3f inputs:reflection_color (
+                    displayGroup = "Reflection"
+                    displayName = "Reflection Color"
+                    renderType = "color"
+                )
+                asset inputs:reflection_color_texture (
+                    displayGroup = "Reflection"
+                    displayName = "Reflection Color Texture"
+                    renderType = "texture_2d"
+                )
+                asset inputs:roughness_texture (
+                    displayGroup = "Roughness"
+                    displayName = "Roughness Texture"
+                    renderType = "texture_2d"
+                )
+                float inputs:roughness_texture_influence (
+                    displayGroup = "Roughness"
+                    displayName = "Roughness Texture Influence"
+                    renderType = "float"
+                )
+                float inputs:texture_rotate (
+                    displayGroup = "UV"
+                    displayName = "Texture Rotate"
+                    renderType = "float"
+                )
+                float2 inputs:texture_scale (
+                    displayGroup = "UV"
+                    displayName = "Texture Tiling"
+                    renderType = "float2"
+                )
+                float2 inputs:texture_translate (
+                    displayGroup = "UV"
+                    displayName = "Texture Translate"
+                    renderType = "float2"
+                )
+                bool inputs:thin_walled (
+                    displayGroup = "Refraction"
+                    displayName = "Thin Walled"
+                    renderType = "bool"
+                )
+                int inputs:uv_space_index (
+                    displayGroup = "UV"
+                    displayName = "UV Space Index"
+                    renderType = "int"
+                )
+                bool inputs:world_or_object (
+                    displayGroup = "UV"
+                    displayName = "Enable World Space"
+                    renderType = "bool"
+                )
+                token outputs:out (
+                    renderType = "material"
+                )
+                uniform token ui:nodegraph:node:expansionState = "open"
+            }
+        }
+
+        def Material "Water_Ocean_Blue_Reef"
+        {
+            token outputs:mdl:displacement.connect = </World/Looks/Water_Ocean_Blue_Reef/Shader.outputs:out>
+            token outputs:mdl:surface.connect = </World/Looks/Water_Ocean_Blue_Reef/Shader.outputs:out>
+            token outputs:mdl:volume.connect = </World/Looks/Water_Ocean_Blue_Reef/Shader.outputs:out>
+
+            def Shader "Shader"
+            {
+                uniform token info:implementationSource = "sourceAsset"
+                uniform asset info:mdl:sourceAsset = @https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/vMaterials_2/Liquids/Water_Blue_Ocean_Perlinwaves.mdl@
+                uniform token info:mdl:sourceAsset:subIdentifier = "Water_Ocean_Blue_Reef"
+                float inputs:water_absorbtion = 0.45
+                float inputs:water_scattering_amount = 0.26999998
+                float inputs:water_tint = 0.48999998
+                token outputs:out (
+                    renderType = "material"
+                )
+            }
+        }
+    }
+
+    def Camera "MainBackView" (
+        prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+        hide_in_stage_window = false
+        no_delete = false
+    )
+    {
+        float4[] clippingPlanes = []
+        float2 clippingRange = (1, 10000000)
+        float exposure = 0
+        custom float exposure:fStop = 5
+        custom float exposure:iso = 100
+        custom float exposure:responsivity = 1.1026709
+        custom float exposure:time = 0.02
+        float focalLength = 8
+        float focusDistance = 400
+        float fStop = 0
+        float horizontalAperture = 20.955
+        float horizontalApertureOffset = 0
+        custom vector3d omni:kit:centerOfInterest = (0, 0, -1998.0519474474684)
+        custom float omni:rtx:autoExposure:adaptationSpeed = 3.5
+        custom bool omni:rtx:autoExposure:enabled = 0
+        custom bool omni:rtx:autoExposure:histogramClamping:enabled = 1
+        custom float omni:rtx:autoExposure:histogramClamping:maxLuminance = 100000
+        custom float omni:rtx:autoExposure:histogramClamping:minLuminance = 50
+        custom token omni:rtx:autoExposure:histogramFilter = "median"
+        custom float omni:rtx:autoExposure:whitePointScale = 10
+        token projection = "perspective"
+        uniform token purpose = "default"
+        double shutter:close = 0
+        double shutter:open = 0
+        uniform token stereoRole = "mono"
+        float verticalAperture = 15.2908
+        float verticalApertureOffset = 0
+        token visibility = "inherited"
+        float3 xformOp:rotateYXZ = (87.86372, -5.6274985e-12, 98.613464)
+        float3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (1102.9496764744708, -19.0715668122464, 398.8390574035699)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateYXZ", "xformOp:scale"]
+    }
+
+    def Camera "MainFrontView" (
+        prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+        hide_in_stage_window = false
+        no_delete = false
+    )
+    {
+        float4[] clippingPlanes = []
+        float2 clippingRange = (1, 10000000)
+        float exposure = 0
+        custom float exposure:fStop = 5
+        custom float exposure:iso = 100
+        custom float exposure:responsivity = 1.1026709
+        custom float exposure:time = 0.02
+        float focalLength = 8
+        float focusDistance = 400
+        float fStop = 0
+        float horizontalAperture = 20.955
+        float horizontalApertureOffset = 0
+        custom vector3d omni:kit:centerOfInterest = (0, 0, -1316.1978733253156)
+        custom float omni:rtx:autoExposure:adaptationSpeed = 3.5
+        custom bool omni:rtx:autoExposure:enabled = 0
+        custom bool omni:rtx:autoExposure:histogramClamping:enabled = 1
+        custom float omni:rtx:autoExposure:histogramClamping:maxLuminance = 100000
+        custom float omni:rtx:autoExposure:histogramClamping:minLuminance = 50
+        custom token omni:rtx:autoExposure:histogramFilter = "median"
+        custom float omni:rtx:autoExposure:whitePointScale = 10
+        token projection = "perspective"
+        uniform token purpose = "default"
+        double shutter:close = 0
+        double shutter:open = 0
+        uniform token stereoRole = "mono"
+        float verticalAperture = 15.2908
+        float verticalApertureOffset = 0
+        token visibility = "inherited"
+        float3 xformOp:rotateYXZ = (22.359705, -1.4210855e-13, 104.15467)
+        float3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (336.0371114776505, 221.95610801993732, 953.7689248780388)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateYXZ", "xformOp:scale"]
+    }
+
+    def Camera "TopView" (
+        prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+        hide_in_stage_window = false
+        no_delete = false
+    )
+    {
+        float4[] clippingPlanes = []
+        float2 clippingRange = (1, 10000000)
+        float exposure = 0
+        custom float exposure:fStop = 5
+        custom float exposure:iso = 100
+        custom float exposure:responsivity = 1.1026709
+        custom float exposure:time = 0.02
+        float focalLength = 8
+        float focusDistance = 400
+        float fStop = 0
+        float horizontalAperture = 20.955
+        float horizontalApertureOffset = 0
+        custom vector3d omni:kit:centerOfInterest = (0, 0, -1316.1978733253156)
+        custom float omni:rtx:autoExposure:adaptationSpeed = 3.5
+        custom bool omni:rtx:autoExposure:enabled = 0
+        custom bool omni:rtx:autoExposure:histogramClamping:enabled = 1
+        custom float omni:rtx:autoExposure:histogramClamping:maxLuminance = 100000
+        custom float omni:rtx:autoExposure:histogramClamping:minLuminance = 50
+        custom token omni:rtx:autoExposure:histogramFilter = "median"
+        custom float omni:rtx:autoExposure:whitePointScale = 10
+        token projection = "perspective"
+        uniform token purpose = "default"
+        double shutter:close = 0
+        double shutter:open = 0
+        uniform token stereoRole = "mono"
+        float verticalAperture = 15.2908
+        float verticalApertureOffset = 0
+        token visibility = "inherited"
+        float3 xformOp:rotateYXZ = (22.359705, -1.4100431e-13, 104.15467)
+        float3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (336.0371114776505, 221.95610801993732, 953.7689248780388)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateYXZ", "xformOp:scale"]
+    }
+}
+
+def Xform "Environment"
+{
+    double3 xformOp:rotateXYZ = (0, 0, 0)
+    double3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+
+    def DomeLight "Sky" (
+        prepend apiSchemas = ["ShapingAPI"]
+    )
+    {
+        float inputs:intensity = 1000
+        float inputs:shaping:cone:angle = 180
+        float inputs:shaping:cone:softness
+        float inputs:shaping:focus
+        color3f inputs:shaping:focusTint
+        asset inputs:shaping:ies:file
+        float inputs:specular = 1
+        asset inputs:texture:file = @../kit-app-template/_build/linux-x86_64/release/extscache/omni.light_rigs-106.3.7/light_rig_data/light_rigs/HDR/partly_cloudy.hdr@
+        token inputs:texture:format = "latlong"
+        custom int omni:rtx:usdluxVersion = 2505
+        token visibility = "inherited"
+        double3 xformOp:rotateXYZ = (90, 0, 0)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+    }
+
+    def DistantLight "DistantLight" (
+        prepend apiSchemas = ["ShapingAPI"]
+    )
+    {
+        float inputs:angle = 4.3
+        float inputs:intensity = 3000
+        bool inputs:normalize = 1
+        float inputs:shaping:cone:angle = 180
+        float inputs:shaping:cone:softness
+        float inputs:shaping:focus
+        color3f inputs:shaping:focusTint
+        asset inputs:shaping:ies:file
+        custom int omni:rtx:usdluxVersion = 2505
+        token visibility = "inherited"
+        double3 xformOp:rotateXYZ = (41.35092544555664, 0.517652153968811, -35.92928695678711)
+        double3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+    }
+}
+
+def "Render" (
+    hide_in_stage_window = true
+    no_delete = true
+)
+{
+    def "OmniverseKit"
+    {
+        def "HydraTextures" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            def RenderProduct "omni_kit_widget_viewport_ViewportTexture_0" (
+                prepend apiSchemas = ["OmniRtxSettingsCommonAdvancedAPI_1", "OmniRtxSettingsRtAdvancedAPI_1", "OmniRtxSettingsPtAdvancedAPI_1", "OmniRtxPostColorGradingAPI_1", "OmniRtxPostChromaticAberrationAPI_1", "OmniRtxPostBloomPhysicalAPI_1", "OmniRtxPostMatteObjectAPI_1", "OmniRtxPostCompositingAPI_1", "OmniRtxPostDofAPI_1", "OmniRtxPostMotionBlurAPI_1", "OmniRtxPostTvNoiseAPI_1", "OmniRtxPostTonemapIrayReinhardAPI_1", "OmniRtxPostDebugSettingsAPI_1", "OmniRtxDebugSettingsAPI_1"]
+                hide_in_stage_window = true
+                no_delete = true
+            )
+            {
+                rel camera = </World/Factory_Lite/Cameras/Camera>
+                token omni:rtx:ambientOcclusion:denoiserMode = "none"
+                token omni:rtx:background:source:texture:textureMode = "repeatMirrored"
+                token omni:rtx:background:source:type = "domeLight"
+                bool omni:rtx:debug:view:pixelDebug:enableFixedTextPos = 1
+                token omni:rtx:directLighting:sampledLighting:denoisingTechnique = "None"
+                bool omni:rtx:dlss:frameGeneration = 1
+                bool omni:rtx:indirectDiffuse:denoiser:enabled = 0
+                token omni:rtx:lights:dome:samplingStrategy = "approximatedImageBasedLighting"
+                bool omni:rtx:meshlights:enabled = 1
+                token omni:rtx:post:dlss:execMode = "balanced"
+                bool omni:rtx:post:registeredCompositing:invertColorCorrection = 1
+                bool omni:rtx:post:registeredCompositing:invertToneMap = 1
+                int omni:rtx:pt:maxSamplesPerLaunch = 2073600
+                int omni:rtx:pt:mgpu:maxPixelsPerRegionExponent = 12
+                int omni:rtx:realtime:mgpu:tileCount = 2
+                bool omni:rtx:reflections:denoiser:enabled = 0
+                token omni:rtx:rendermode = "RealTimePathTracing"
+                color3f omni:rtx:rt:ambientLight:color = (0.1, 0.1, 0.1)
+                float omni:rtx:rt:ambientLight:intensity = 1
+                bool omni:rtx:rt:demoire = 0
+                bool omni:rtx:rt:lightcache:spatialCache:dontResolveConflicts = 1
+                float omni:rtx:rt:reflections:roughnessCacheThreshold = 0.11
+                int omni:rtx:rt:sss:samples = 1
+                int omni:rtx:rtpt:maxVolumeBounces = 15
+                float omni:rtx:rtpt:modulatingRoughnessThreshold = 0.08
+                int omni:rtx:scene:hydra:minFreeDeviceMemory = 3000
+                uint omni:rtx:viewTile:limit = 4294967295
+                rel orderedVars = </Render/Vars/LdrColor>
+                custom bool overrideClipRange = 0
+                uniform int2 resolution = (1328, 526)
+            }
+        }
+    }
+
+    def RenderSettings "OmniverseGlobalRenderSettings" (
+        prepend apiSchemas = ["OmniRtxSettingsGlobalRtAdvancedAPI_1", "OmniRtxSettingsGlobalPtAdvancedAPI_1"]
+        no_delete = true
+    )
+    {
+        bool omni:rtx:pt:multigpu:enabled = 0
+        rel products = </Render/OmniverseKit/HydraTextures/omni_kit_widget_viewport_ViewportTexture_0>
+    }
+
+    def "Vars"
+    {
+        def RenderVar "LdrColor" (
+            hide_in_stage_window = true
+            no_delete = true
+        )
+        {
+            uniform string sourceName = "LdrColor"
+        }
+    }
+}
+
+over "OmniverseKit_Persp" (
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float exposure:responsivity = 1.1026709
+    float exposure:time = 0.02
+    float focalLength = 8
+    float focusDistance = 400
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -1135.2966637729987)
+    bool omni:rtx:autoExposure:enabled = 1
+    float3 xformOp:rotateXYZ = (73.87773, -2.842171e-14, 656.48804)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (-617.0113350452576, -1147.579966095634, 330.66255928595575)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Front" (
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float exposure:responsivity = 1.1026709
+    float exposure:time = 0.02
+    float horizontalAperture = 5000
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -50000)
+    token projection = "orthographic"
+    float verticalAperture = 5000
+    float3 xformOp:rotateXYZ = (90, -1.2722219e-14, 90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (50000, 0, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Right" (
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float exposure:responsivity = 1.1026709
+    float exposure:time = 0.02
+    float horizontalAperture = 5000
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -50000)
+    token projection = "orthographic"
+    float verticalAperture = 5000
+    float3 xformOp:rotateXYZ = (90, -1.41245e-30, 1.2722219e-14)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, -50000, 0)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
+over "OmniverseKit_Top" (
+    prepend apiSchemas = ["OmniRtxCameraAutoExposureAPI_1", "OmniRtxCameraExposureAPI_1"]
+    customData = {
+        dictionary omni = {
+            dictionary kit = {
+                bool hide_in_stage_window = 1
+                bool no_delete = 1
+            }
+        }
+    }
+    hide_in_stage_window = true
+    kind = "component"
+    no_delete = true
+)
+{
+    float2 clippingRange = (1, 10000000)
+    float exposure:responsivity = 1.1026709
+    float exposure:time = 0.02
+    float horizontalAperture = 5000
+    custom uniform vector3d omni:kit:centerOfInterest = (0, 0, -50000)
+    token projection = "orthographic"
+    float verticalAperture = 5000
+    float3 xformOp:rotateXYZ = (-1.2722219e-14, -7.016709e-15, -90)
+    float3 xformOp:scale = (1, 1, 1)
+    double3 xformOp:translate = (0, 0, 50000)
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ", "xformOp:scale"]
+}
+
